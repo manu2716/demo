@@ -2,6 +2,8 @@ package com.example.controller;
 
 import com.example.model.Product;
 import com.example.service.ProductService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,34 +14,52 @@ public class ProductController {
 
     private final ProductService service;
 
-    public ProductController(ProductService service){
+    //by default constructor inject applies as there is single constructor with single parameter
+    public ProductController(ProductService service) {
         this.service = service;
     }
 
-    //TODO: Replace return type with ResponseEntity
+    //TODO: Refactor GET to check for null or empty list
     @GetMapping
-    public List<Product> getAll(){
-        return service.findAll();
+    public ResponseEntity<List<Product>> getAll() {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(service.findAll());
     }
 
     @GetMapping("/{id}")
-    public Product getById(@PathVariable Long id){
-        return service.findById(id);
+    public ResponseEntity<Product> getById(@PathVariable Long id) {
+
+        Product product = service.findById(id);
+        if (product == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(product);
     }
 
     @PostMapping
-    public Product create(@RequestBody Product product){
-        return service.save(product);
+    public ResponseEntity<Product> create(@RequestBody Product product) {
+        Product savedProduct = service.save(product);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(savedProduct);
     }
 
     @PutMapping("/{id}")
-    public Product update(@PathVariable Long id, @RequestBody Product product){
-        return service.update(id, product);
+    public ResponseEntity<Product> update(@PathVariable Long id, @RequestBody Product product) {
+        Product updatedProduct = service.update(id, product);
+        if (updatedProduct == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .build();
+        }
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(updatedProduct);
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id){
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         service.delete(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT)
+                .build();
     }
 }
 
