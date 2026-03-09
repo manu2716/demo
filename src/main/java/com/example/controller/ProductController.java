@@ -77,7 +77,7 @@ public class ProductController {
             description = "Updates the details of the product"
     )
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description ="Porduct updated"),
+            @ApiResponse(responseCode = "200", description = "Product updated"),
             @ApiResponse(responseCode = "404", description = "Invalid Product")
     })
     public ResponseEntity<Product> update(@PathVariable Long id, @RequestBody Product product) {
