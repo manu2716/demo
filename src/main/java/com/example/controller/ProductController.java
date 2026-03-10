@@ -34,8 +34,12 @@ public class ProductController {
     })
     @GetMapping
     public ResponseEntity<List<Product>> getAll() {
+        List<Product> products = service.findAll();
+        if(products.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }
         return ResponseEntity.status(HttpStatus.OK)
-                .body(service.findAll());
+                .body(products);
     }
 
     @GetMapping("/{id}")
@@ -51,7 +55,7 @@ public class ProductController {
 
         Product product = service.findById(id);
         if (product == null) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         }
         return ResponseEntity.status(HttpStatus.OK)
                 .body(product);
@@ -67,6 +71,7 @@ public class ProductController {
             @ApiResponse(responseCode = "400", description = "Invalid input")
     })
     public ResponseEntity<Product> create(@RequestBody Product product) {
+        //TODO: Perform Validations on the product
         Product savedProduct = service.save(product);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(savedProduct);
@@ -101,6 +106,7 @@ public class ProductController {
             @ApiResponse(responseCode = "404", description = "Product Not Found")
     })
     public ResponseEntity<Void> delete(@PathVariable Long id) {
+        //TODO: Use case if the id is not present return meaningful message
         service.delete(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT)
                 .build();

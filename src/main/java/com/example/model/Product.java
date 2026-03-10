@@ -7,6 +7,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.Data;
 
+//TODO: Perform validations on the product
 @Data
 @Entity
 public class Product {
