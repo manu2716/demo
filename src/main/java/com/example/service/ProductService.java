@@ -2,10 +2,12 @@ package com.example.service;
 
 import com.example.model.Product;
 import com.example.repository.ProductRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Slf4j
 @Service
 public class ProductService {
 
@@ -18,6 +20,7 @@ public class ProductService {
     }
 
     public List<Product> findAll(){
+        log.debug("Fetching all products from Repo");
         return repo.findAll();
     }
 
