@@ -9,6 +9,9 @@ import java.util.List;
 
 @Slf4j
 @Service
+/* TODO : Implement the class using interface
+   SOLID Principle class should depend on abstraction and not concrete implementation 
+*/
 public class ProductService {
 
     private final ProductRepository repo;
