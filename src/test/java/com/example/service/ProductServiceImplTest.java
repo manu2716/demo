@@ -15,13 +15,13 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class ProductServiceTest {
+public class ProductServiceImplTest {
 
     @Mock
     private ProductRepository repo;
 
     @InjectMocks
-    private ProductService service;
+    private ProductServiceImpl service;
 
     @Test
     public void findAllTest(){

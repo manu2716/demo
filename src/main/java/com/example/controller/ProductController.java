@@ -1,7 +1,7 @@
 package com.example.controller;
 
 import com.example.model.Product;
-import com.example.service.ProductService;
+import com.example.service.ProductServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -19,10 +19,10 @@ import java.util.List;
 @RequestMapping("/products")
 public class ProductController {
 
-    private final ProductService service;
+    private final ProductServiceImpl service;
 
     //by default constructor inject applies as there is single constructor with single parameter
-    public ProductController(ProductService service) {
+    public ProductController(ProductServiceImpl service) {
         this.service = service;
     }
 
