@@ -5,6 +5,7 @@ import com.example.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +13,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Slf4j // To implement logging using lombok
+// To implement logging using lombok
+@Slf4j
 @RestController
 @RequestMapping("/products")
 public class ProductController {
@@ -24,7 +26,7 @@ public class ProductController {
         this.service = service;
     }
 
-    //TODO: Refactor GET to check for null or empty list
+
     @Operation(
             summary = "Get All Product",
             description = "Fetch all the products"
@@ -37,6 +39,7 @@ public class ProductController {
     public ResponseEntity<List<Product>> getAll() {
         log.info("Fetching all products");
         List<Product> products = service.findAll();
+        //check if the list is empty
         if(products.isEmpty()){
             log.warn("No products found");
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
@@ -76,8 +79,8 @@ public class ProductController {
             @ApiResponse(responseCode = "201", description = "Product added"),
             @ApiResponse(responseCode = "400", description = "Invalid input")
     })
-    public ResponseEntity<Product> create(@RequestBody Product product) {
-        //TODO: Perform Validations on the product
+    public ResponseEntity<Product> create(@Valid @RequestBody Product product) {
+        //TODO: Added Validations but not working
         log.info("Adding Product to the Database");
         Product savedProduct = service.save(product);
         log.info("Product Added to DB");
