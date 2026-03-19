@@ -121,9 +121,13 @@ public class ProductController {
             @ApiResponse(responseCode = "404", description = "Product Not Found")
     })
     public ResponseEntity<Void> delete(@PathVariable Long id) {
-        //TODO: Use case if the id is not present return meaningful message
-        log.info("Deleting the product");
-        service.delete(id);
+        log.info("Deleting the product with id {}",id);
+        boolean result = service.delete(id);
+        //check if the product exists or not
+        if(!result){
+            log.warn("Product with id {} not found",id);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
         log.info("Product successfully deleted");
         return ResponseEntity.status(HttpStatus.NO_CONTENT)
                 .build();
