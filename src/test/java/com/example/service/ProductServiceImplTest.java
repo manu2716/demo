@@ -102,4 +102,47 @@ public class ProductServiceImplTest {
         assertEquals("Laptop", result.getName());
         assertEquals(1000, result.getPrice());
     }
+
+    @Test
+    public void updateProductTest(){
+
+        Product oldProduct = new Product();
+        oldProduct.setId(1L);
+        oldProduct.setName("Old Laptop");
+        oldProduct.setPrice(111);
+
+        Product updatedProduct = new Product();
+        updatedProduct.setName("New Laptop");
+        updatedProduct.setPrice(123);
+
+        when(repo.findById(1L)).thenReturn(Optional.of(oldProduct));
+        when(repo.save(oldProduct)).thenReturn(oldProduct);
+
+        Product result = service.update(1L, updatedProduct);
+
+        //assert
+        assertEquals(123,result.getPrice());
+        assertEquals("New Laptop", result.getName());
+    }
+
+    @Test
+    public void updateProductNotFoundTest(){
+
+        Product product = new Product();
+        product.setName("TV");
+        product.setPrice(145);
+
+        Product result = service.update(1L,product);
+
+        //assert
+        assertNull(result);
+    }
+
+    @Test
+    public void deleteProductTest(){
+
+        /*
+        * delete method is void
+        * */
+    }
 }

@@ -12,7 +12,6 @@ import lombok.Setter;
 
 @Data
 @Entity
-@Setter
 public class Product {
 
     @Id
